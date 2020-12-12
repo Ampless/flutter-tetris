@@ -46,7 +46,7 @@ class PageLand extends StatelessWidget {
                                     .requestFocus(new FocusNode());
                               }
                             },
-                            child: Text(S.of(context).reward))
+                            child: Text('Reward'))
                       ],
                     ),
                     Spacer(),

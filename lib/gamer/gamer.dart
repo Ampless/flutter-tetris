@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:tetris/gamer/block.dart';
 import 'package:tetris/main.dart';
-import 'package:tetris/material/audios.dart';
 
 ///the height of game pad
 const GAME_PAD_MATRIX_H = 20;
@@ -131,14 +130,11 @@ class GameControl extends State<Game> with RouteAware {
     return next;
   }
 
-  SoundState get _sound => Sound.of(context);
-
   void rotate() {
     if (_states == GameStates.running && _current != null) {
       final next = _current.rotate();
       if (next.isValidInMatrix(_data)) {
         _current = next;
-        _sound.rotate();
       }
     }
     setState(() {});
@@ -151,7 +147,6 @@ class GameControl extends State<Game> with RouteAware {
       final next = _current.right();
       if (next.isValidInMatrix(_data)) {
         _current = next;
-        _sound.move();
       }
     }
     setState(() {});
@@ -164,7 +159,6 @@ class GameControl extends State<Game> with RouteAware {
       final next = _current.left();
       if (next.isValidInMatrix(_data)) {
         _current = next;
-        _sound.move();
       }
     }
     setState(() {});
@@ -179,7 +173,7 @@ class GameControl extends State<Game> with RouteAware {
           _states = GameStates.drop;
           setState(() {});
           await Future.delayed(const Duration(milliseconds: 100));
-          _mixCurrentIntoData(mixSound: _sound.fall);
+          _mixCurrentIntoData();
           break;
         }
       }
@@ -189,14 +183,11 @@ class GameControl extends State<Game> with RouteAware {
     }
   }
 
-  void down({bool enableSounds = true}) {
+  void down() {
     if (_states == GameStates.running && _current != null) {
       final next = _current.fall();
       if (next.isValidInMatrix(_data)) {
         _current = next;
-        if (enableSounds) {
-          _sound.move();
-        }
       } else {
         _mixCurrentIntoData();
       }
@@ -207,7 +198,7 @@ class GameControl extends State<Game> with RouteAware {
   Timer _autoFallTimer;
 
   ///mix current into [_data]
-  Future<void> _mixCurrentIntoData({void mixSound()}) async {
+  Future<void> _mixCurrentIntoData() async {
     if (_current == null) {
       return;
     }
@@ -226,8 +217,6 @@ class GameControl extends State<Game> with RouteAware {
 
     if (clearLines.isNotEmpty) {
       setState(() => _states = GameStates.clear);
-
-      _sound.clear();
 
       ///消除效果动画
       for (int count = 0; count < 5; count++) {
@@ -255,7 +244,6 @@ class GameControl extends State<Game> with RouteAware {
       _level = level <= _LEVEL_MAX && level > _level ? level : _level;
     } else {
       _states = GameStates.mixing;
-      if (mixSound != null) mixSound();
       _forTable((i, j) => _mask[i][j] = _current.get(j, i) ?? _mask[i][j]);
       setState(() {});
       await Future.delayed(const Duration(milliseconds: 200));
@@ -297,9 +285,7 @@ class GameControl extends State<Game> with RouteAware {
     } else if (enable) {
       _autoFallTimer?.cancel();
       _current = _current ?? _getNext();
-      _autoFallTimer = Timer.periodic(_SPEED[_level - 1], (t) {
-        down(enableSounds: false);
-      });
+      _autoFallTimer = Timer.periodic(_SPEED[_level - 1], (t) => down());
     }
   }
 
@@ -327,7 +313,6 @@ class GameControl extends State<Game> with RouteAware {
     if (_states == GameStates.reset) {
       return;
     }
-    _sound.start();
     _states = GameStates.reset;
     () async {
       int line = GAME_PAD_MATRIX_H;
@@ -384,21 +369,14 @@ class GameControl extends State<Game> with RouteAware {
       }
     }
     debugPrint("game states : $_states");
-    return GameState(
-        mixed, _states, _level, _sound.mute, _points, _cleared, _next,
+    return GameState(mixed, _states, _level, _points, _cleared, _next,
         child: widget.child);
-  }
-
-  void soundSwitch() {
-    setState(() {
-      _sound.mute = !_sound.mute;
-    });
   }
 }
 
 class GameState extends InheritedWidget {
-  GameState(this.data, this.states, this.level, this.muted, this.points,
-      this.cleared, this.next,
+  GameState(
+      this.data, this.states, this.level, this.points, this.cleared, this.next,
       {Key key, this.child})
       : super(key: key, child: child);
 
@@ -409,17 +387,10 @@ class GameState extends InheritedWidget {
   ///1: 普通砖块
   ///2: 高亮砖块
   final List<List<int>> data;
-
   final GameStates states;
-
   final int level;
-
-  final bool muted;
-
   final int points;
-
   final int cleared;
-
   final Block next;
 
   static GameState of(BuildContext context) {

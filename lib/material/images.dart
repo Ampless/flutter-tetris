@@ -131,23 +131,6 @@ class IconPause extends StatelessWidget {
   }
 }
 
-class IconSound extends StatelessWidget {
-  final bool enable;
-  final Size size;
-
-  const IconSound({Key key, this.enable = true, this.size = const Size(18, 16)})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return _Material(
-      size: size,
-      srcSize: const Size(25, 21),
-      srcOffset: enable ? const Offset(150, 75) : const Offset(175, 75),
-    );
-  }
-}
-
 class IconColon extends StatelessWidget {
   final bool enable;
 

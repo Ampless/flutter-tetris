@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tetris/generated/i18n.dart';
 import 'package:tetris/income/donation_dialog.dart';
 import 'package:tetris/main.dart';
 import 'package:tetris/panel/controller.dart';
@@ -34,7 +33,7 @@ class PagePortrait extends StatelessWidget {
                           FocusScope.of(context).requestFocus(new FocusNode());
                         }
                       },
-                      child: Text(S.of(context).reward))
+                      child: Text('Reward'))
                 ],
               ),
               Spacer(),
