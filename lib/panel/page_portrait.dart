@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tetris/income/donation_dialog.dart';
 import 'package:tetris/main.dart';
 import 'package:tetris/panel/controller.dart';
 import 'package:tetris/panel/screen.dart';
@@ -14,28 +13,11 @@ class PagePortrait extends StatelessWidget {
 
     return SizedBox.expand(
       child: Container(
-        color: BACKGROUND_COLOR,
+        color: Colors.black,
         child: Padding(
           padding: MediaQuery.of(context).padding,
           child: Column(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Spacer(),
-                  FlatButton(
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => DonationDialog());
-                      },
-                      onHighlightChanged: (pressed) {
-                        if (!pressed) {
-                          FocusScope.of(context).requestFocus(new FocusNode());
-                        }
-                      },
-                      child: Text('Reward'))
-                ],
-              ),
               Spacer(),
               _ScreenDecoration(child: Screen(width: screenW)),
               Spacer(flex: 2),
@@ -58,21 +40,17 @@ class _ScreenDecoration extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(
-              color: const Color(0xFF987f0f), width: SCREEN_BORDER_WIDTH),
-          left: BorderSide(
-              color: const Color(0xFF987f0f), width: SCREEN_BORDER_WIDTH),
-          right: BorderSide(
-              color: const Color(0xFFfae36c), width: SCREEN_BORDER_WIDTH),
-          bottom: BorderSide(
-              color: const Color(0xFFfae36c), width: SCREEN_BORDER_WIDTH),
+          top: BorderSide(color: Colors.white, width: SCREEN_BORDER_WIDTH),
+          left: BorderSide(color: Colors.white, width: SCREEN_BORDER_WIDTH),
+          right: BorderSide(color: Colors.white, width: SCREEN_BORDER_WIDTH),
+          bottom: BorderSide(color: Colors.white, width: SCREEN_BORDER_WIDTH),
         ),
       ),
       child: Container(
-        decoration: BoxDecoration(border: Border.all(color: Colors.black54)),
+        decoration: BoxDecoration(border: Border.all(color: Colors.white)),
         child: Container(
           padding: const EdgeInsets.all(3),
-          color: SCREEN_BACKGROUND,
+          color: Colors.black,
           child: child,
         ),
       ),

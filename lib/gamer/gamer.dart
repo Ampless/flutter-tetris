@@ -51,7 +51,7 @@ class Game extends StatefulWidget {
   }
 
   static GameControl of(BuildContext context) {
-    final state = context.ancestorStateOfType(TypeMatcher<GameControl>());
+    final state = context.findAncestorStateOfType<GameControl>();
     assert(state != null, "must wrap this context with [Game]");
     return state;
   }
@@ -103,25 +103,14 @@ class GameControl extends State<Game> with RouteAware {
   ///the gamer data
   final List<List<int>> _data = [];
 
-  ///在 [build] 方法中于 [_data]混合，形成一个新的矩阵
-  ///[_mask]矩阵的宽高与 [_data] 一致
-  ///对于任意的 _mask[x,y] ：
-  /// 如果值为 0,则对 [_data]没有任何影响
-  /// 如果值为 -1,则表示 [_data] 中该行不显示
-  /// 如果值为 1，则表示 [_data] 中该行高亮
   final List<List<int>> _mask = [];
 
   ///from 1-6
   int _level = 1;
-
   int _points = 0;
-
   int _cleared = 0;
-
   Block _current;
-
   Block _next = Block.getRandom();
-
   GameStates _states = GameStates.none;
 
   Block _getNext() {
@@ -218,7 +207,6 @@ class GameControl extends State<Game> with RouteAware {
     if (clearLines.isNotEmpty) {
       setState(() => _states = GameStates.clear);
 
-      ///消除效果动画
       for (int count = 0; count < 5; count++) {
         clearLines.forEach((line) {
           _mask[line].fillRange(0, GAME_PAD_MATRIX_W, count % 2 == 0 ? -1 : 1);
@@ -251,22 +239,16 @@ class GameControl extends State<Game> with RouteAware {
       setState(() {});
     }
 
-    //_current已经融入_data了，所以不再需要
     _current = null;
 
-    //检查游戏是否结束,即检查第一行是否有元素为1
     if (_data[0].contains(1)) {
       reset();
       return;
     } else {
-      //游戏尚未结束，开启下一轮方块下落
       _startGame();
     }
   }
 
-  ///遍历表格
-  ///i 为 row
-  ///j 为 column
   static void _forTable(dynamic function(int row, int column)) {
     for (int i = 0; i < GAME_PAD_MATRIX_H; i++) {
       for (int j = 0; j < GAME_PAD_MATRIX_W; j++) {
@@ -394,7 +376,7 @@ class GameState extends InheritedWidget {
   final Block next;
 
   static GameState of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(GameState) as GameState);
+    return context.dependOnInheritedWidgetOfExactType<GameState>();
   }
 
   @override

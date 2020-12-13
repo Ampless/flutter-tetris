@@ -31,7 +31,6 @@ const BLOCK_SHAPES = {
   ]
 };
 
-///方块初始化时的位置
 const START_XY = {
   BlockType.I: [3, 0],
   BlockType.L: [4, -1],
@@ -42,7 +41,6 @@ const START_XY = {
   BlockType.T: [4, -1],
 };
 
-///方块变换时的中心点
 const ORIGIN = {
   BlockType.I: [
     [1, -1],
@@ -81,17 +79,12 @@ class Block {
 
   Block(this.type, this.shape, this.xy, this.rotateIndex);
 
-  Block fall({int step = 1}) {
-    return Block(type, shape, [xy[0], xy[1] + step], rotateIndex);
-  }
+  Block fall({int step = 1}) =>
+      Block(type, shape, [xy[0], xy[1] + step], rotateIndex);
 
-  Block right() {
-    return Block(type, shape, [xy[0] + 1, xy[1]], rotateIndex);
-  }
+  Block right() => Block(type, shape, [xy[0] + 1, xy[1]], rotateIndex);
 
-  Block left() {
-    return Block(type, shape, [xy[0] - 1, xy[1]], rotateIndex);
-  }
+  Block left() => Block(type, shape, [xy[0] - 1, xy[1]], rotateIndex);
 
   Block rotate() {
     List<List<int>> result =

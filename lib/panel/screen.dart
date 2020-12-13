@@ -3,13 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:tetris/gamer/gamer.dart';
 import 'package:tetris/material/briks.dart';
-import 'package:tetris/material/material.dart';
 import 'package:vector_math/vector_math_64.dart' as v;
 
 import 'player_panel.dart';
 import 'status_panel.dart';
-
-const Color SCREEN_BACKGROUND = Color(0xff9ead86);
 
 /// screen H : W;
 class Screen extends StatelessWidget {
@@ -30,19 +27,17 @@ class Screen extends StatelessWidget {
         height: (playerPanelWidth - 6) * 2 + 6,
         width: width,
         child: Container(
-          color: SCREEN_BACKGROUND,
-          child: GameMaterial(
-            child: BrikSize(
-              size: getBrikSizeForScreenWidth(playerPanelWidth),
-              child: Row(
-                children: <Widget>[
-                  PlayerPanel(width: playerPanelWidth),
-                  SizedBox(
-                    width: width - playerPanelWidth,
-                    child: StatusPanel(),
-                  )
-                ],
-              ),
+          color: Colors.black,
+          child: BrikSize(
+            size: getBrikSizeForScreenWidth(playerPanelWidth),
+            child: Row(
+              children: <Widget>[
+                PlayerPanel(width: playerPanelWidth),
+                SizedBox(
+                  width: width - playerPanelWidth,
+                  child: StatusPanel(),
+                )
+              ],
             ),
           ),
         ),

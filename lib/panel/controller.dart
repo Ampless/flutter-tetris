@@ -191,13 +191,9 @@ class LeftController extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
+      children: [
         SystemButtonGroup(),
-        Expanded(
-          child: Center(
-            child: DropButton(),
-          ),
-        )
+        Expanded(child: Center(child: DropButton())),
       ],
     );
   }
@@ -232,59 +228,29 @@ class _Button extends StatefulWidget {
 ///show a hint text for child widget
 class _Description extends StatelessWidget {
   final String text;
-
   final Widget child;
-
-  final AxisDirection direction;
 
   const _Description({
     Key key,
     this.text,
-    this.direction = AxisDirection.down,
     this.child,
-  })  : assert(direction != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Widget widget;
-    switch (direction) {
-      case AxisDirection.right:
-        widget = Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[child, SizedBox(width: 8), Text(text)]);
-        break;
-      case AxisDirection.left:
-        widget = Row(
-          children: <Widget>[Text(text), SizedBox(width: 8), child],
-          mainAxisSize: MainAxisSize.min,
-        );
-        break;
-      case AxisDirection.up:
-        widget = Column(
-          children: <Widget>[Text(text), SizedBox(height: 8), child],
-          mainAxisSize: MainAxisSize.min,
-        );
-        break;
-      case AxisDirection.down:
-        widget = Column(
-          children: <Widget>[child, SizedBox(height: 8), Text(text)],
-          mainAxisSize: MainAxisSize.min,
-        );
-        break;
-    }
     return DefaultTextStyle(
-      child: widget,
-      style: TextStyle(fontSize: 12, color: Colors.black),
+      child: Column(
+        children: [child, SizedBox(height: 8), Text(text)],
+        mainAxisSize: MainAxisSize.min,
+      ),
+      style: TextStyle(fontSize: 12, color: Colors.white),
     );
   }
 }
 
 class _ButtonState extends State<_Button> {
   Timer _timer;
-
   bool _tapEnded = false;
-
   Color _color;
 
   @override
@@ -308,9 +274,7 @@ class _ButtonState extends State<_Button> {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTapDown: (_) async {
-          setState(() {
-            _color = widget.color.withOpacity(0.5);
-          });
+          setState(() => _color = widget.color.withOpacity(0.5));
           if (_timer != null) {
             return;
           }

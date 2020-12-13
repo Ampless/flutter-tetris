@@ -7,7 +7,7 @@ class PageLand extends StatelessWidget {
     height -= MediaQuery.of(context).viewInsets.vertical;
     return SizedBox.expand(
       child: Container(
-        color: BACKGROUND_COLOR,
+        color: Colors.black,
         child: Padding(
           padding: MediaQuery.of(context).padding,
           child: Row(
@@ -31,24 +31,6 @@ class PageLand extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Spacer(),
-                        FlatButton(
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => DonationDialog());
-                            },
-                            onHighlightChanged: (pressed) {
-                              if (!pressed) {
-                                FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
-                              }
-                            },
-                            child: Text('Reward'))
-                      ],
-                    ),
                     Spacer(),
                     DirectionController(),
                     SizedBox(height: 30),

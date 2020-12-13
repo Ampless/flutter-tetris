@@ -1,33 +1,20 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tetris/gamer/gamer.dart';
 import 'package:tetris/panel/page_portrait.dart';
 
 import 'gamer/keyboard.dart';
+import 'material/material.dart';
 
 void main() {
-  debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-  _disableDebugPrint();
   runApp(MyApp());
-}
-
-void _disableDebugPrint() {
-  bool debug = false;
-  assert(() {
-    debug = true;
-    return true;
-  }());
-  if (!debug) {
-    debugPrint = (String message, {int wrapWidth}) {
-      //disable log print when not in debug mode
-    };
-  }
 }
 
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  MyApp() {
+    (() async => materialIGot = await doLoadMaterial())();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,8 +31,6 @@ class MyApp extends StatelessWidget {
 }
 
 const SCREEN_BORDER_WIDTH = 3.0;
-
-const BACKGROUND_COLOR = const Color(0xffefcc19);
 
 class _HomePage extends StatelessWidget {
   @override

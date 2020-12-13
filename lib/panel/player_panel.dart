@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tetris/material/briks.dart';
-import 'package:tetris/material/images.dart';
 import 'package:tetris/gamer/gamer.dart';
 
 const _PLAYER_PANEL_PADDING = 6;
@@ -27,7 +26,7 @@ class PlayerPanel extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(2),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
+          border: Border.all(color: Colors.white),
         ),
         child: Stack(
           children: <Widget>[
@@ -49,7 +48,9 @@ class _PlayerPad extends StatelessWidget {
           children: list.map((b) {
             return b == 1
                 ? const Brik.normal()
-                : b == 2 ? const Brik.highlight() : const Brik.empty();
+                : b == 2
+                    ? const Brik.highlight()
+                    : const Brik.empty();
           }).toList(),
         );
       }).toList(),
@@ -62,17 +63,7 @@ class _GameUninitialized extends StatelessWidget {
   Widget build(BuildContext context) {
     if (GameState.of(context).states == GameStates.none) {
       return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            IconDragon(animate: true),
-            SizedBox(height: 16),
-            Text(
-              "tetrix",
-              style: TextStyle(fontSize: 20),
-            ),
-          ],
-        ),
+        child: Text("tetrix", style: TextStyle(fontSize: 20)),
       );
     } else {
       return Container();

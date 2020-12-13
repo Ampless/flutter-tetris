@@ -15,7 +15,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  overlay_support: ^0.0.4
+  overlay_support: ^1.0.5
 
 dev_dependencies:
   flutter_test:
