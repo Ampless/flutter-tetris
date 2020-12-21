@@ -31,7 +31,7 @@ class Screen extends StatelessWidget {
           child: BrikSize(
             size: getBrikSizeForScreenWidth(playerPanelWidth),
             child: Row(
-              children: <Widget>[
+              children: [
                 PlayerPanel(width: playerPanelWidth),
                 SizedBox(
                   width: width - playerPanelWidth,
@@ -59,7 +59,6 @@ class Shake extends StatefulWidget {
   _ShakeState createState() => _ShakeState();
 }
 
-///摇晃屏幕
 class _ShakeState extends State<Shake> with TickerProviderStateMixin {
   AnimationController _controller;
 
@@ -67,9 +66,7 @@ class _ShakeState extends State<Shake> with TickerProviderStateMixin {
   void initState() {
     _controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 150))
-          ..addListener(() {
-            setState(() {});
-          });
+          ..addListener(() => setState(() {}));
     super.initState();
   }
 
